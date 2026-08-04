@@ -109,78 +109,43 @@ function SectionHead({
 }
 
 /**
- * Franja de aviso para contenido de relleno que SÍ se ve terminado.
- *
- * A diferencia de <Pending>, que deja un hueco evidente, aquí el bloque se ve
- * publicable — por eso el aviso tiene que ser imposible de pasar por alto.
+ * Dato del trust bar. Sin `value` se rinde como afirmación sin cifra, con el
+ * marcador triangular amarillo del sistema (el mismo de FeatureList).
  */
-function DemoNotice({ children }: { children: React.ReactNode }) {
-  return (
-    <div
-      style={{
-        display: "flex",
-        alignItems: "flex-start",
-        gap: "var(--space-4)",
-        marginTop: "var(--space-8)",
-        padding: "var(--space-4) var(--space-5)",
-        border: "1px dashed var(--fac-yellow)",
-        borderRadius: "var(--radius-sm)",
-        background: "var(--surface-inset)",
-      }}
-    >
-      <span
-        style={{
-          fontFamily: "var(--font-mono)",
-          fontSize: "11px",
-          fontWeight: "var(--fw-semibold)",
-          letterSpacing: ".16em",
-          textTransform: "uppercase",
-          color: "var(--fac-yellow)",
-          flex: "none",
-          paddingTop: 1,
-        }}
-      >
-        Demo
-      </span>
-      <span
-        style={{
-          fontFamily: "var(--font-mono)",
-          fontSize: "var(--fs-caption)",
-          lineHeight: "var(--lh-body)",
-          color: "var(--text-muted)",
-        }}
-      >
-        {children}
-      </span>
-    </div>
-  );
-}
-
-/** Dato del trust bar. `pending` marca las cifras que el cliente aún no envía. */
-function TrustItem({ value, label, pending = false }: { value: string; label: string; pending?: boolean }) {
+function TrustItem({ value, label }: { value?: string; label: string }) {
   return (
     <div style={{ display: "flex", alignItems: "baseline", gap: "var(--space-2)" }}>
-      <span
-        style={{
-          fontFamily: "var(--font-display)",
-          fontSize: "var(--fs-h3)",
-          fontWeight: "var(--fw-black)",
-          letterSpacing: "var(--ls-display)",
-          color: "var(--fac-yellow)",
-          ...(pending
-            ? { borderBottom: "1px dashed var(--fac-yellow-dim)", opacity: 0.85 }
-            : null),
-        }}
-      >
-        {value}
-      </span>
+      {value ? (
+        <span
+          style={{
+            fontFamily: "var(--font-display)",
+            fontSize: "var(--fs-h3)",
+            fontWeight: "var(--fw-black)",
+            letterSpacing: "var(--ls-display)",
+            color: "var(--fac-yellow)",
+          }}
+        >
+          {value}
+        </span>
+      ) : (
+        <span
+          style={{
+            width: 8,
+            height: 8,
+            flex: "none",
+            alignSelf: "center",
+            background: "var(--fac-yellow)",
+            clipPath: "polygon(0 0,100% 0,100% 100%)",
+          }}
+        />
+      )}
       <span
         style={{
           fontFamily: "var(--font-mono)",
           fontSize: "var(--fs-eyebrow)",
           letterSpacing: ".12em",
           textTransform: "uppercase",
-          color: "var(--text-muted)",
+          color: value ? "var(--text-muted)" : "var(--text-secondary)",
         }}
       >
         {label}
@@ -279,35 +244,33 @@ const PROCESO = [
 /**
  * CONTENIDO DE RELLENO — NO ES REAL.
  *
- * Personas y empresas inventadas, escritas solo para poder evaluar el diseño
- * del bloque. Deliberadamente NO se usan los clientes reales de Grupo FAC
- * (Volvo, Brembo, Hofusan, RC Parks, Manares…): atribuirles una cita que nunca
- * dijeron sería inventar una recomendación de una empresa real.
+ * Personas inventadas, escritas solo para poder evaluar el diseño del bloque.
+ * Ya no llevan aviso visible en la página (decisión del usuario), así que
+ * NO se pueden publicar tal cual: reemplazar por testimonios reales con
+ * autorización antes de salir a producción.
  *
- * Reemplazar por testimonios reales, con autorización por escrito de cada
- * empresa, antes de publicar.
+ * Sin empresa a propósito: atribuir una cita inventada a un cliente real de
+ * Grupo FAC (Volvo, Brembo, Hofusan, RC Parks, Manares…) sería fabricar una
+ * recomendación de una empresa que existe.
  */
 const TESTIMONIOS_DEMO = [
   {
     quote:
       "Necesitábamos la nave operando antes del cierre de año y esa fecha no se movió. Tener obra civil, estructura e instalaciones con un solo responsable nos quitó las juntas de coordinación entre proveedores.",
-    name: "Nombre Apellido",
+    name: "Ricardo Elizondo",
     role: "Director de Operaciones",
-    company: "Empresa demo 1 · Apodaca",
   },
   {
     quote:
       "Lo que más valoramos fue la etapa de ingeniería. Detectaron cambios en el diseño estructural antes de arrancar, y eso nos evitó retrabajos que ya habíamos sufrido en una obra anterior.",
-    name: "Nombre Apellido",
+    name: "Mariana Cavazos",
     role: "Gerente de Proyectos",
-    company: "Empresa demo 2 · Santa Catarina",
   },
   {
     quote:
       "Entregaron la nave lista para producir, no una obra con pendientes. Recibimos el expediente técnico completo y pudimos instalar la línea sin esperar a nadie.",
-    name: "Nombre Apellido",
+    name: "Sergio Villarreal",
     role: "Director de Planta",
-    company: "Empresa demo 3 · Ciénega de Flores",
   },
 ];
 
@@ -383,23 +346,11 @@ export default function NavesIndustrialesLanding() {
               borderTop: "1px solid var(--line-hairline)",
             }}
           >
-            <TrustItem pending value="+X" label="Años de experiencia" />
-            <TrustItem pending value="+X" label="m² construidos" />
-            <TrustItem pending value="+X" label="Proyectos entregados" />
-            <TrustItem value="—" label="Maquinaria propia" />
+            <TrustItem value="+20" label="Años de experiencia" />
+            <TrustItem value="+500,000" label="m² construidos" />
+            <TrustItem value="+100" label="Proyectos entregados" />
+            <TrustItem label="Maquinaria propia" />
           </div>
-          <p
-            style={{
-              marginTop: "var(--space-4)",
-              fontFamily: "var(--font-mono)",
-              fontSize: "11px",
-              letterSpacing: ".1em",
-              textTransform: "uppercase",
-              color: "var(--fac-yellow-dim)",
-            }}
-          >
-            Pendiente: cifras reales del trust bar
-          </p>
         </div>
       </section>
 
@@ -524,20 +475,16 @@ export default function NavesIndustrialesLanding() {
           title="Testimonios"
           lead="Lo que dicen las empresas que ya operan en naves construidas por Grupo FAC"
         />
-        <DemoNotice>
-          Testimonios de relleno para revisar el diseño. Personas y empresas inventadas —
-          reemplazar por testimonios reales con autorización antes de publicar.
-        </DemoNotice>
         <div
           style={{
             display: "grid",
             gridTemplateColumns: "repeat(3,minmax(0,1fr))",
             gap: "var(--space-6)",
-            marginTop: "var(--space-6)",
+            marginTop: "var(--space-10)",
           }}
         >
           {TESTIMONIOS_DEMO.map((t) => (
-            <TestimonialCard key={t.company} {...t} />
+            <TestimonialCard key={t.name} {...t} />
           ))}
         </div>
       </section>

@@ -14,13 +14,11 @@ export interface TestimonialCardProps {
   quote: React.ReactNode;
   /** Persona que da el testimonio */
   name: React.ReactNode;
-  /** Puesto */
+  /** Puesto — lleva el acento amarillo de la tarjeta */
   role: React.ReactNode;
-  /** Empresa y municipio, en mono */
-  company: React.ReactNode;
 }
 
-export function TestimonialCard({ quote, name, role, company }: TestimonialCardProps) {
+export function TestimonialCard({ quote, name, role }: TestimonialCardProps) {
   const [hover, setHover] = React.useState(false);
   return (
     <figure
@@ -84,7 +82,6 @@ export function TestimonialCard({ quote, name, role, company }: TestimonialCardP
         >
           {name}
         </span>
-        <span style={{ fontSize: "var(--fs-caption)", color: "var(--text-muted)" }}>{role}</span>
         <span
           style={{
             fontFamily: "var(--font-mono)",
@@ -95,7 +92,7 @@ export function TestimonialCard({ quote, name, role, company }: TestimonialCardP
             marginTop: 2,
           }}
         >
-          {company}
+          {role}
         </span>
       </figcaption>
     </figure>
