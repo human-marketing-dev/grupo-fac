@@ -1,6 +1,7 @@
 "use client";
 
 import * as React from "react";
+import { Heading, type HeadingLevel } from "./Heading";
 
 /**
  * One rung of the method rail on service pages — where "supervisión técnica en
@@ -16,6 +17,8 @@ export interface ProcessStepProps {
   /** Drops the connector line and the trailing space */
   last?: boolean;
   invert?: boolean;
+  /** Document outline level for the title. Defaults to 4. */
+  headingLevel?: HeadingLevel;
   style?: React.CSSProperties;
 }
 
@@ -26,6 +29,7 @@ export function ProcessStep({
   meta,
   last = false,
   invert = false,
+  headingLevel = 4,
   style,
 }: ProcessStepProps) {
   const [hover, setHover] = React.useState(false);
@@ -79,7 +83,8 @@ export function ProcessStep({
         }}
       >
         <div style={{ display: "flex", alignItems: "baseline", gap: "var(--space-4)", flexWrap: "wrap" }}>
-          <h4
+          <Heading
+            level={headingLevel}
             style={{
               fontSize: "var(--fs-h4)",
               fontWeight: "var(--fw-bold)",
@@ -90,7 +95,7 @@ export function ProcessStep({
             }}
           >
             {title}
-          </h4>
+          </Heading>
           {meta ? (
             <span
               style={{

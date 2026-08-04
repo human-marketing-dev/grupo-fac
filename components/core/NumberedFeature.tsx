@@ -1,6 +1,7 @@
 "use client";
 
 import * as React from "react";
+import { Heading, type HeadingLevel } from "./Heading";
 
 /** Numbered differentiator row. The mono index turns yellow on hover. */
 export interface NumberedFeatureProps {
@@ -9,6 +10,8 @@ export interface NumberedFeatureProps {
   title?: React.ReactNode;
   description?: React.ReactNode;
   invert?: boolean;
+  /** Document outline level for the title. Defaults to 4. */
+  headingLevel?: HeadingLevel;
   style?: React.CSSProperties;
 }
 
@@ -17,6 +20,7 @@ export function NumberedFeature({
   title,
   description,
   invert = false,
+  headingLevel = 4,
   style,
 }: NumberedFeatureProps) {
   const [hover, setHover] = React.useState(false);
@@ -49,7 +53,8 @@ export function NumberedFeature({
         {number}
       </span>
       <div style={{ display: "flex", flexDirection: "column", gap: "var(--space-2)" }}>
-        <h4
+        <Heading
+          level={headingLevel}
           style={{
             fontSize: "var(--fs-h4)",
             fontWeight: "var(--fw-bold)",
@@ -60,7 +65,7 @@ export function NumberedFeature({
           }}
         >
           {title}
-        </h4>
+        </Heading>
         {description ? (
           <p
             style={{

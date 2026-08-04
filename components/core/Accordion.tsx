@@ -1,6 +1,7 @@
 "use client";
 
 import * as React from "react";
+import { Heading, type HeadingLevel } from "./Heading";
 
 export interface AccordionItem {
   question: React.ReactNode;
@@ -16,10 +17,22 @@ export interface AccordionProps {
   /** Index open on mount; -1 for all closed */
   defaultOpen?: number;
   invert?: boolean;
+  /**
+   * Document outline level for each question. Defaults to 3 — the trigger is
+   * wrapped in a heading per the WAI-ARIA accordion pattern, which also makes
+   * FAQ questions crawlable.
+   */
+  headingLevel?: HeadingLevel;
   style?: React.CSSProperties;
 }
 
-export function Accordion({ items = [], defaultOpen = 0, invert = false, style }: AccordionProps) {
+export function Accordion({
+  items = [],
+  defaultOpen = 0,
+  invert = false,
+  headingLevel = 3,
+  style,
+}: AccordionProps) {
   const [open, setOpen] = React.useState(defaultOpen);
   const uid = React.useId();
   const line = invert ? "rgba(49,49,49,.16)" : "var(--line-hairline)";
@@ -32,6 +45,16 @@ export function Accordion({ items = [], defaultOpen = 0, invert = false, style }
         const buttonId = `${uid}-button-${i}`;
         return (
           <div key={i} style={{ borderBottom: `1px solid ${line}` }}>
+            <Heading
+              level={headingLevel}
+              style={{
+                margin: 0,
+                font: "inherit",
+                color: "inherit",
+                letterSpacing: "normal",
+                lineHeight: "inherit",
+              }}
+            >
             <button
               id={buttonId}
               type="button"
@@ -51,7 +74,10 @@ export function Accordion({ items = [], defaultOpen = 0, invert = false, style }
                 font: "inherit",
               }}
             >
+              {/* Positional index — conveyed by list order, so keep it out of
+                  the heading's accessible name. */}
               <span
+                aria-hidden="true"
                 style={{
                   fontFamily: "var(--font-mono)",
                   fontSize: "11px",
@@ -102,6 +128,7 @@ export function Accordion({ items = [], defaultOpen = 0, invert = false, style }
                 {isOpen ? "−" : "+"}
               </span>
             </button>
+            </Heading>
             <div
               id={panelId}
               role="region"

@@ -128,7 +128,9 @@
   --section-y: var(--space-32);
   --section-y-tight: var(--space-20);
   --gutter: var(--space-8);
-  --container-max: 1280px;
+  /* 1450px por decisión del proyecto — el sistema de diseño trae 1280px.
+     Header, footer y todas las secciones consumen este token. */
+  --container-max: 1450px;
   --container-narrow: 768px;
 
   /* ---- Radii — near-square, industrial. Nothing pill-shaped except the logo mark. ---- */
@@ -214,6 +216,12 @@
 *::before,
 *::after {
   box-sizing: border-box;
+}
+
+/* In-page CTAs anchor to #cotizar; the header is sticky, so scrolled-to
+   sections need clearance. Overridden to `auto` by the reduced-motion guard. */
+html {
+  scroll-behavior: smooth;
 }
 
 body {

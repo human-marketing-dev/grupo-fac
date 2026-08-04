@@ -57,23 +57,32 @@ export function Navbar({
       }}
     >
       {phone ? (
+        // La barra tiñe todo el ancho, pero su contenido se alinea al mismo
+        // contenedor que el nav de abajo.
         <div
           style={{
             background: "var(--neutral-1000)",
             borderBottom: "1px solid var(--line-hairline)",
-            display: "flex",
-            justifyContent: "flex-end",
-            gap: "var(--space-6)",
-            padding: "7px var(--space-8)",
-            fontFamily: "var(--font-mono)",
-            fontSize: "11px",
-            letterSpacing: ".08em",
-            textTransform: "uppercase",
-            color: "var(--text-muted)",
           }}
         >
-          <span>Monterrey, N.L.</span>
-          <span style={{ color: "var(--fac-yellow)" }}>{phone}</span>
+          <div
+            style={{
+              maxWidth: "var(--container-max)",
+              margin: "0 auto",
+              display: "flex",
+              justifyContent: "flex-end",
+              gap: "var(--space-6)",
+              padding: "7px var(--space-8)",
+              fontFamily: "var(--font-mono)",
+              fontSize: "11px",
+              letterSpacing: ".08em",
+              textTransform: "uppercase",
+              color: "var(--text-muted)",
+            }}
+          >
+            <span>Monterrey, N.L.</span>
+            <span style={{ color: "var(--fac-yellow)" }}>{phone}</span>
+          </div>
         </div>
       ) : null}
       <nav
