@@ -13,8 +13,10 @@ import {
   ProcessStep,
   QuoteForm,
 } from "@/components";
+import { ClientLogoMarquee } from "@/components/landing/ClientLogoMarquee";
 import { Pending } from "@/components/landing/Pending";
 import { ScopeCard } from "@/components/landing/ScopeCard";
+import { SectionPhoto } from "@/components/landing/SectionPhoto";
 import { TestimonialCard } from "@/components/landing/TestimonialCard";
 
 /**
@@ -274,6 +276,25 @@ const TESTIMONIOS_DEMO = [
   },
 ];
 
+/**
+ * Logos de cliente. Los archivos de `public/logos-clientes/` son los originales
+ * de `public/logos_clientes/` recortados a su tinta: los originales vienen en
+ * lienzo cuadrado con relleno muy dispar (la marca ocupa entre el 18% y el 80%
+ * del alto), y sin recortar los tamaños ópticos quedan disparejos en la banda.
+ * Todos son blancos sobre transparente, hechos para fondo oscuro.
+ */
+const CLIENTES = [
+  { src: "/logos-clientes/hermosillo.png", name: "Hermosillo" },
+  { src: "/logos-clientes/brembo.png", name: "Brembo" },
+  { src: "/logos-clientes/amistad.png", name: "Amistad" },
+  { src: "/logos-clientes/grupo-dags.png", name: "Grupo DAGS" },
+  { src: "/logos-clientes/constructora-grcc.png", name: "Constructora GRCC" },
+  { src: "/logos-clientes/martre-edificaciones.png", name: "Martre Edificaciones" },
+  { src: "/logos-clientes/gobierno-nuevo-leon.png", name: "Gobierno de Nuevo León" },
+  { src: "/logos-clientes/gobierno-tamaulipas.png", name: "Gobierno de Tamaulipas" },
+  { src: "/logos-clientes/gp.png", name: "GP" },
+];
+
 const FAQ = [
   {
     question: "¿Cuánto cuesta la construcción de una nave industrial por m²?",
@@ -370,17 +391,22 @@ export default function NavesIndustrialesLanding() {
         <div
           style={{
             display: "grid",
-            gridTemplateColumns: "minmax(0,.85fr) minmax(0,1.15fr)",
+            gridTemplateColumns: "minmax(0,.8fr) minmax(0,1.2fr)",
             gap: "var(--space-16)",
             alignItems: "start",
           }}
         >
-          <SectionHead
-            n="02"
-            title="Propuesta de valor"
-            lead="Ejecución total para tu proyecto industrial"
+          <SectionPhoto
+            src="/grupo-fac-imagen.webp"
+            alt="Obra de nave industrial en ejecución: piloteadora y equipo de perforación trabajando sobre la plataforma, con la nave estructurada al fondo."
+            objectPosition="46% 50%"
           />
           <div style={{ display: "flex", flexDirection: "column", gap: "var(--space-8)" }}>
+            <SectionHead
+              n="02"
+              title="Propuesta de valor"
+              lead="Ejecución total para tu proyecto industrial"
+            />
             <p style={{ fontSize: "var(--fs-body-lg)", lineHeight: "var(--lh-body)", color: "var(--text-muted)" }}>
               En Grupo FAC combinamos ingeniería, experiencia en obra y una flota completa de
               maquinaria propia para entregar naves y parques industriales listos para operar.
@@ -438,10 +464,25 @@ export default function NavesIndustrialesLanding() {
       <section id="diferenciadores" style={GRID_SHELL}>
         <div style={CONTAINER}>
           <SectionHead n="04" title="Diferenciadores" lead="Por qué construir con Grupo FAC te conviene" />
-          <div style={{ marginTop: "var(--space-12)", maxWidth: 860 }}>
-            {DIFERENCIADORES.map((d) => (
-              <NumberedFeature key={d.number} headingLevel={3} {...d} />
-            ))}
+          <div
+            style={{
+              display: "grid",
+              gridTemplateColumns: "minmax(0,1.15fr) minmax(0,.85fr)",
+              gap: "var(--space-16)",
+              alignItems: "start",
+              marginTop: "var(--space-12)",
+            }}
+          >
+            <div>
+              {DIFERENCIADORES.map((d) => (
+                <NumberedFeature key={d.number} headingLevel={3} {...d} />
+              ))}
+            </div>
+            <SectionPhoto
+              src="/grupo-fac-rc-parks-2.webp"
+              alt="Vista aérea de una nave industrial terminada de gran longitud, con su vialidad de acceso y patio de maniobras."
+              objectPosition="45% 50%"
+            />
           </div>
         </div>
       </section>
@@ -462,8 +503,8 @@ export default function NavesIndustrialesLanding() {
             title="Clientes"
             lead="Empresas que ya construyeron su crecimiento con Grupo FAC"
           />
-          <div style={{ marginTop: "var(--space-10)" }}>
-            <Pending minHeight={180} label="Logos de clientes a integrar (requiere autorización por escrito de cada marca)" />
+          <div style={{ marginTop: "var(--space-12)" }}>
+            <ClientLogoMarquee logos={CLIENTES} />
           </div>
         </div>
       </section>
@@ -493,10 +534,25 @@ export default function NavesIndustrialesLanding() {
       <section id="proceso" style={GRID_SHELL}>
         <div style={CONTAINER}>
           <SectionHead n="08" title="Nuestro Proceso" lead="De la primera llamada a tu nave lista para operar" />
-          <div style={{ marginTop: "var(--space-12)", maxWidth: 760 }}>
-            {PROCESO.map((p, i) => (
-              <ProcessStep key={p.code} headingLevel={3} last={i === PROCESO.length - 1} {...p} />
-            ))}
+          <div
+            style={{
+              display: "grid",
+              gridTemplateColumns: "minmax(0,.85fr) minmax(0,1.15fr)",
+              gap: "var(--space-16)",
+              alignItems: "start",
+              marginTop: "var(--space-12)",
+            }}
+          >
+            <SectionPhoto
+              src="/grupo-fac-proceso.webp"
+              alt="Cuadrilla armando la cimentación de una nave industrial: habilitado de acero, cimbra y colado en la excavación."
+              objectPosition="44% 50%"
+            />
+            <div>
+              {PROCESO.map((p, i) => (
+                <ProcessStep key={p.code} headingLevel={3} last={i === PROCESO.length - 1} {...p} />
+              ))}
+            </div>
           </div>
         </div>
       </section>
