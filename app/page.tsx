@@ -5,7 +5,6 @@ import {
   Eyebrow,
   FeatureList,
   Footer,
-  GhostNumeral,
   HatchDivider,
   Marquee,
   Navbar,
@@ -14,6 +13,7 @@ import {
   QuoteForm,
 } from "@/components";
 import { ClientLogoMarquee } from "@/components/landing/ClientLogoMarquee";
+import { HeroVideo } from "@/components/landing/HeroVideo";
 import { Pending } from "@/components/landing/Pending";
 import { ScopeCard } from "@/components/landing/ScopeCard";
 import { SectionPhoto } from "@/components/landing/SectionPhoto";
@@ -141,13 +141,17 @@ function TrustItem({ value, label }: { value?: string; label: string }) {
           }}
         />
       )}
+      {/* Blanco: el trust bar va sobre el vídeo del hero. Medido contra el
+          fotograma más claro, --text-muted (#777) y --text-secondary (#C4C3C1)
+          se quedan en 3.1:1; el blanco da 5.5:1. Las cifras van en amarillo,
+          que a 24px cuenta como texto grande y le basta 3:1. */}
       <span
         style={{
           fontFamily: "var(--font-mono)",
           fontSize: "var(--fs-eyebrow)",
           letterSpacing: ".12em",
           textTransform: "uppercase",
-          color: value ? "var(--text-muted)" : "var(--text-secondary)",
+          color: "var(--text-primary)",
         }}
       >
         {label}
@@ -324,11 +328,26 @@ export default function NavesIndustrialesLanding() {
       <Navbar logo="/logo-fac-white.png" phone="+52 81 8486 1870" ctaHref="#cotizar" cta="Cotiza tu proyecto" />
 
       {/* ── 1. Hero ─────────────────────────────────────────────────────── */}
-      <section style={{ ...GRID_SHELL, position: "relative", overflow: "hidden" }}>
-        <div style={{ ...CONTAINER, position: "relative", paddingBlock: "var(--space-32)" }}>
-          <GhostNumeral size={300} style={{ top: -40, right: -20 }}>
-            FAC
-          </GhostNumeral>
+      <section
+        style={{
+          position: "relative",
+          overflow: "hidden",
+          // Color de respaldo mientras el vídeo carga o si no reproduce.
+          background: "var(--neutral-1000)",
+        }}
+      >
+        <HeroVideo
+          src="/videos/hero-grupofac.mp4"
+          poster="/videos/hero-grupofac-poster.jpg"
+        />
+        <div
+          style={{
+            ...CONTAINER,
+            position: "relative",
+            zIndex: 1,
+            paddingBlock: "var(--space-32)",
+          }}
+        >
           <div style={{ display: "flex", flexDirection: "column", gap: "var(--space-6)", maxWidth: 880 }}>
             <Eyebrow>Monterrey · Nuevo León</Eyebrow>
             <h1
@@ -343,7 +362,9 @@ export default function NavesIndustrialesLanding() {
             >
               Construcción de Naves Industriales en Monterrey
             </h1>
-            <p style={{ fontSize: "var(--fs-body-lg)", color: "var(--text-secondary)", maxWidth: 720 }}>
+            {/* Blanco y no --text-secondary: sobre el vídeo, #C4C3C1 se queda en
+                3.1:1 en el fotograma más claro y no cumple AA. */}
+            <p style={{ fontSize: "var(--fs-body-lg)", color: "var(--text-primary)", maxWidth: 720 }}>
               Más de 10 años de experiencia construyendo naves y parques industriales llave en mano:
               ingeniería, obra civil, instalaciones y entrega, con un solo equipo responsable de que
               tu proyecto arranque a tiempo.
