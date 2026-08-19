@@ -668,6 +668,7 @@ export default function NavesIndustrialesLanding() {
         address="Edificio Punto Aura, Carr. Nacional 4500, Piso 7, Col. Valle Alto, Monterrey, N.L."
         email="contacto@grupofac.com"
         phone="+52 81 8486 1870"
+        fiscal="Grupo Construcciones y Edificaciones FAC - GCE0909215G1"
       />
     </>
   );

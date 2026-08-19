@@ -27,6 +27,12 @@ export interface FooterProps {
   hours?: React.ReactNode;
   social?: FooterSocial[];
   legal?: React.ReactNode;
+  /**
+   * Razón social y RFC. Se rinde en su propia línea de la franja legal, con
+   * más contraste que el resto de la franja: es el dato que consultan las
+   * plataformas al verificar a quién pertenece el dominio.
+   */
+  fiscal?: React.ReactNode;
   style?: React.CSSProperties;
 }
 
@@ -86,6 +92,7 @@ export function Footer({
   hours,
   social = [],
   legal,
+  fiscal,
   style,
 }: FooterProps) {
   return (
@@ -236,7 +243,10 @@ export function Footer({
             color: "var(--neutral-500)",
           }}
         >
-          <span>{legal || "© 2026 Grupo FAC. Todos los derechos reservados."}</span>
+          <div style={{ display: "flex", flexDirection: "column", gap: "var(--space-2)" }}>
+            {fiscal ? <span style={{ color: "var(--text-muted)" }}>{fiscal}</span> : null}
+            <span>{legal || "© 2026 Grupo FAC. Todos los derechos reservados."}</span>
+          </div>
           <Link
             href="/terminos-y-condiciones"
             style={{ color: "var(--neutral-500)", textDecoration: "none" }}
