@@ -20,6 +20,8 @@ export interface SelectProps {
   name?: string;
   placeholder?: string;
   required?: boolean;
+  /** Mensaje de error: tiñe el borde de --state-danger y se pinta debajo */
+  error?: React.ReactNode;
   invert?: boolean;
   style?: React.CSSProperties;
 }
@@ -32,6 +34,7 @@ export function Select({
   name,
   placeholder = "Selecciona una opción",
   required,
+  error,
   invert = false,
   style,
 }: SelectProps) {
@@ -58,6 +61,7 @@ export function Select({
           value={value}
           onChange={onChange}
           required={required}
+          aria-invalid={error ? true : undefined}
           onFocus={() => setFocus(true)}
           onBlur={() => setFocus(false)}
           style={{
@@ -67,7 +71,13 @@ export function Select({
             background: invert ? "var(--fac-white)" : "var(--surface-inset)",
             color: invert ? "var(--text-on-invert)" : "var(--text-primary)",
             border: `1px solid ${
-              focus ? "var(--fac-yellow)" : invert ? "var(--line-invert)" : "var(--line-strong)"
+              error
+                ? "var(--state-danger)"
+                : focus
+                  ? "var(--fac-yellow)"
+                  : invert
+                    ? "var(--line-invert)"
+                    : "var(--line-strong)"
             }`,
             borderRadius: "var(--radius-sm)",
             fontFamily: "var(--font-body)",
@@ -100,6 +110,9 @@ export function Select({
           ▼
         </span>
       </div>
+      {error ? (
+        <span style={{ fontSize: "var(--fs-caption)", color: "var(--state-danger)" }}>{error}</span>
+      ) : null}
     </label>
   );
 }

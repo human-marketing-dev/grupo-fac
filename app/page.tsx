@@ -18,6 +18,7 @@ import { Pending } from "@/components/landing/Pending";
 import { ScopeCard } from "@/components/landing/ScopeCard";
 import { SectionPhoto } from "@/components/landing/SectionPhoto";
 import { TestimonialCard } from "@/components/landing/TestimonialCard";
+import { SERVICIOS } from "@/lib/leads";
 
 /**
  * Landing de campaña — Construcción de Naves Industriales (Google Ads,
@@ -627,15 +628,12 @@ export default function NavesIndustrialesLanding() {
                 padding: "var(--space-10)",
               }}
             >
+              {/* La lista de servicios sale de lib/leads para que el servidor
+                  valide contra exactamente las mismas opciones. */}
               <QuoteForm
+                endpoint="/api/leads"
                 submitLabel="Cotiza tu proyecto"
-                services={[
-                  { value: "nave", label: "Nave industrial" },
-                  { value: "cedis", label: "CEDIS" },
-                  { value: "parque", label: "Parque industrial" },
-                  { value: "obra-civil", label: "Obra civil e infraestructura" },
-                  { value: "llave-en-mano", label: "Proyecto llave en mano" },
-                ]}
+                services={[...SERVICIOS]}
               />
             </div>
           </div>
